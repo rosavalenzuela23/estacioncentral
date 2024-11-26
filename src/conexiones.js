@@ -36,7 +36,10 @@ function enviarMensaje(msg) {
 
     console.log(globalClient);
 
-    globalClient.send("/queue/estacion.central", {}, JSON.stringify(msg));
+    globalClient.send("/queue/estacion.central", {
+        durable: false,
+        exclusive: false
+    }, JSON.stringify(msg));
 
 }
 
