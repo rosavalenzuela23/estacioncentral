@@ -6,9 +6,9 @@ class Mapa {
         for (const s of this.semaforos) {
 
             //verficar que el click este en el rango de las x
-            if (x >= s.posicionx && x <= s.posicionx + 40) {
+            if (x >= s.posicionx - 20 && x <= s.posicionx + 20) {
                 //verificar que el click este en rango de las y's
-                if (y >= s.posiciony && y <= s.posiciony + 40) {
+                if (y >= s.posiciony - 20 && y <= s.posiciony + 20) {
                     //si hizo click en un semaforo, lo que significa cambiarlo
                     //de estado
                     rabbit.cambiarEstadoSemaforo({cmd: 'actualizar', data: s});
