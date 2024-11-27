@@ -1,6 +1,9 @@
 // Make an instance of two and place it on the page.
+const urlCarroSvg = './svg/car.svg';
+
 class Mapa {
     semaforos;
+    vehiculos = new Map();
 
     verificarClick(x, y) {
         for (const s of this.semaforos) {
@@ -17,6 +20,32 @@ class Mapa {
             }
 
         }
+    }
+
+    actualizarVehiculo(v) {
+        if(!this.vehiculos.get(v.identificador)) {
+            this.agregarVehiculo(v);
+            return;
+        }
+
+        this.vehiculos.get(v.identificador)['svg'].setAttribute(
+            'style',
+            `transform: translate(${v.posicion.x}px, ${v.posicion.y}px);`
+        );
+
+        //nada
+    }
+
+    agregarVehiculo(v) {
+        const svg = document.createElement('img');
+        svg.setAttribute('width', 20);
+        svg.setAttribute('height', 20);
+        svg.setAttribute('style', `transform: translate(${v.posicion.x}px, ${v.posicion.y}px);`)
+        svg.id = v.identificador;
+        svg.setAttribute('src', urlCarroSvg);
+        document.body.append(svg);
+        v['svg'] = svg;
+        this.vehiculos.set(v.identificador, v);
     }
 
 }
@@ -45,6 +74,11 @@ function actualizarMapa(mapajson) {
         const pi = c.posicionInicio;
         const pf = c.posicionFinal;
         two.makeLine(pi.x, pi.y, pf.x, pf.y);
+
+        for (const car of c.vehiculos) {
+            mapa.actualizarVehiculo(car);
+        }
+
     }
 
     for (const s of mapajson.semaforos) {
